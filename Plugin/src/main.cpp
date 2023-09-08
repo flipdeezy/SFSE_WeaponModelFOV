@@ -73,7 +73,6 @@ namespace Handler
             const auto result = func(a_actor);
             SetWeaponFOV(g_weaponFOV.load());
             
-            // Start the thread if it's not already running
             if (!isThreadRunning) {
                 shouldTerminateThread = false;
                 fovThread = std::thread(WeaponFOVMonitor);
@@ -92,7 +91,6 @@ namespace Handler
             const auto result = func(a_actor);
             SetWeaponFOV(g_weaponFOV.load());
 
-            // Stop the thread
             shouldTerminateThread = true;
             isThreadRunning = false;
             return result;
