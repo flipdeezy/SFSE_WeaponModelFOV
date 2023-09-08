@@ -118,8 +118,8 @@ using namespace std::literals;
 #include "sfse_common/Relocation.h"
 #include "sfse_common/SafeWrite.h"
 
-#include <ClibUtil/simpleINI.hpp>
-#include <ClibUtil/singleton.hpp>
+#include <SimpleIni.h>
+#include <DKUtil/Utility.hpp>
 
 namespace stl
 {
@@ -131,5 +131,5 @@ namespace stl
 	}
 }
 
-namespace ini = clib_util::ini;
-using namespace clib_util::singleton;
+template <class T>
+using ISingleton = DKUtil::model::Singleton<T>;
