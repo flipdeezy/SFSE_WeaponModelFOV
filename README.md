@@ -1,5 +1,4 @@
-# 📑 Enemy Friendly Fire
-SFSE plugin that enables friendly fire for NPCs
+# 📑 Weapon Model FOV
 
 ## ⚙ Requirements
 
@@ -16,25 +15,8 @@ SFSE plugin that enables friendly fire for NPCs
   - Desktop development with C++
 - [Starfield Steam Distribution](#-deployment)
   - Add the environment variable `SFPath` with the value as the path to the game installation
-  
-## Get started
-
-### 💻 Register Visual Studio as a Generator
-
-- Open `x64 Native Tools Command Prompt`
-- Run `cmake`
-- Close the cmd window
-
-### 🔨 Building
-
-[Create a new github repo from this template](https://github.com/new?template_name=SF_PluginTemplate&template_owner=gottyduke) or (unrecommended): 
-```
-git clone https://github.com/powerof3/EnemyFriendlyFireSFSE EnemyFriendlyFireSFSE
-cd EnemyFriendlyFireSFSE
-git submodule init
-git submodule update --remote
-.\build-release.ps1
-```
+- [CLibUtil](https://github.com/powerof3/CLibUtil)
+  - Include   
 
 ### ➕ DKUtil addon
 
