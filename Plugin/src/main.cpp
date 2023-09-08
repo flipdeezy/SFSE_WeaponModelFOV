@@ -6,6 +6,9 @@
 #include "Settings.h"
 
 static std::atomic<float> g_weaponFOV(110.0f); 
+std::atomic<bool> shouldTerminateThread = false;
+std::atomic<bool> isThreadRunning = false;
+std::thread fovThread;
 
 uintptr_t GetModuleBaseAddress(const wchar_t* moduleName) {
     DWORD procID = GetCurrentProcessId();
@@ -50,30 +53,7 @@ void SetWeaponFOV(float fovValue) {
     }
 }
 
-namespace Handler
-{
-    struct WeaponDraw
-    {
-        static bool thunk(RE::Actor* a_actor)
-        {
-            const auto result = func(a_actor);
-            SetWeaponFOV(g_weaponFOV.load());
-            return result;
-        }
-        static inline std::add_pointer_t<decltype(thunk)> func;
-    };
-
-    void Install()
-    {
-        SFSE::AllocTrampoline(28);
-        stl::write_thunk_call<WeaponDraw>(0x025F726C);
-        INFO("Hooked WeaponDraw");
-    }
-}
-
-// certain edge cases cause the weapon fov to be reset and its annoying for the player to have to keep re-drawing their weapon
 // Temporary solution until I can find a better way to hook the FOV weapon model or a proper game update
-std::atomic<bool> shouldTerminateThread = false;
 void WeaponFOVMonitor() {
     while (!shouldTerminateThread) {
         float currentFOV = *reinterpret_cast<float*>(GetModuleBaseAddress(L"Starfield.exe") + WeaponFOV_Offset);
@@ -84,14 +64,57 @@ void WeaponFOVMonitor() {
     }
 }
 
+namespace Handler
+{
+    struct WeaponDraw
+    {
+        static bool thunk(RE::Actor* a_actor)
+        {
+            const auto result = func(a_actor);
+            SetWeaponFOV(g_weaponFOV.load());
+            
+            // Start the thread if it's not already running
+            if (!isThreadRunning) {
+                shouldTerminateThread = false;
+                fovThread = std::thread(WeaponFOVMonitor);
+                fovThread.detach();
+                isThreadRunning = true;
+            }            
+            return result;
+        }
+        static inline std::add_pointer_t<decltype(thunk)> func;
+    };
+
+    struct WeaponSheathe
+    {
+        static bool thunk(RE::Actor* a_actor)
+        {
+            const auto result = func(a_actor);
+            SetWeaponFOV(g_weaponFOV.load());
+
+            // Stop the thread
+            shouldTerminateThread = true;
+            isThreadRunning = false;
+            return result;
+        }
+        static inline std::add_pointer_t<decltype(thunk)> func;
+    };
+
+    void Install()
+    {
+        SFSE::AllocTrampoline(28);
+        stl::write_thunk_call<WeaponDraw>(0x025F726C);
+        stl::write_thunk_call<WeaponSheathe>(0x025F73A3);
+        INFO("Hooked WeaponDraw and WeaponSheathe");
+    }
+}
+
 namespace
 {
     void MessageCallback(SFSE::MessagingInterface::Message* a_msg) noexcept
     {
         if (a_msg->type == SFSE::MessagingInterface::kPostLoad) {
-			std::thread fovThread(WeaponFOVMonitor); 
-    		fovThread.detach();
-			Handler::Install();
+            Handler::Install();
             uintptr_t starfieldBase = GetModuleBaseAddress(L"Starfield.exe");
             Settings::GetSingleton()->LoadSettings();
             g_weaponFOV.store(Settings::GetSingleton()->weaponFOV);
