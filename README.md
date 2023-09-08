@@ -30,3 +30,4 @@ This project bundles [DKUtil](https://github.com/gottyduke/DKUtil).
 
 - [ianpatt's starfield script extender](https://github.com/ianpatt/sfse).
 - [Original plugin template](https://github.com/gottyduke/PluginTemplate)
+- [PowerOfThree CLibUtil](https://github.com/powerof3/CLibUtil)
