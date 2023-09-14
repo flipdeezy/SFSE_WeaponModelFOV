@@ -2,12 +2,8 @@ cmake_minimum_required(VERSION 3.21)
 
 # info
 project(
-	WeaponModelFOVSwap
-<<<<<<< HEAD
-	VERSION 1.0.4
-=======
+	WeaponModelFOV
 	VERSION 1.0.0
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 	LANGUAGES CXX
 )
 
@@ -43,19 +39,7 @@ source_group(
 # dependencies
 find_package(spdlog CONFIG REQUIRED)
 find_dependency_path(DKUtil include/DKUtil/Logger.hpp)
-find_dependency_path(SFSE sfse/sfse.cpp)
-
-# 
-target_compile_options(
-	sfse
-	PRIVATE
-		/WX-
-)
-target_compile_options(
-	sfse_common
-	PRIVATE
-		/WX-
-)
+find_dependency_path(CommonLibSF CommonLibSF/include/SFSE/SFSE.h)
 
 # cmake target
 # runtime
@@ -83,7 +67,7 @@ target_link_libraries(
 	${PROJECT_NAME} 
 	PRIVATE
 		DKUtil::DKUtil
-		sfse::sfse_common
+		CommonLibSF::CommonLibSF
 		spdlog::spdlog
 )
 
@@ -120,7 +104,7 @@ if (MSVC)
 			/Zc:trigraphs
 			/Zc:wchar_t
 			/wd4200 # nonstandard extension used : zero-sized array in struct/union
-			/FI${CMAKE_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/$<CONFIG>/cmake_pch.hxx
+			/FI${CMAKE_CURRENT_SOURCE_DIR}/src/PCH.h
 	)
 endif()
 

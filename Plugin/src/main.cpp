@@ -1,44 +1,42 @@
-#include "SFSE/Stub.h"
-<<<<<<< HEAD
-#include "sfse_common/Relocation.h"
-#include "sfse_common/SafeWrite.h"
+#include "REL/Relocation.h"
 #include "Settings.h"
+#include <Windows.h>
 
-Settings settings;
-=======
-#include "RE.h"
-#include "Settings.h"
-#include "sfse_common/Relocation.h"
-#include "sfse_common/SafeWrite.h"
-
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 std::atomic<bool> shouldTerminateThread = false;
 std::atomic<bool> isThreadRunning = false;
 std::thread fovThread;
 
-<<<<<<< HEAD
-static std::atomic<float> g_weaponFOV(100.0f);
-const RelocAddr<uintptr_t*> WeaponFOV_Offset = 0x79FE208;
-=======
-static std::atomic<float> g_weaponFOV(110.0f); 
-const RelocAddr<uintptr_t*> WeaponFOV_Offset = 0x79FD448;
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
+Settings settings;
+static std::atomic<float> g_weaponFOV(120.0f);
+REL::Relocation<uintptr_t> WeaponFOV_Offset = 0x79FE208;
 
 void SetWeaponFOV(float fovValue) {
-    safeWriteBuf(WeaponFOV_Offset.getUIntPtr(), &fovValue, sizeof(float));
+    REL::safe_write(WeaponFOV_Offset.address(), &fovValue, sizeof(float));
 }
 
 void WeaponFOVMonitor() {
     while (!shouldTerminateThread) {
-        float currentFOV = *reinterpret_cast<float*>(WeaponFOV_Offset.getUIntPtr());
-        if (currentFOV != g_weaponFOV.load()) {
-            SetWeaponFOV(g_weaponFOV.load());
-        }
+        float currentFOV = *reinterpret_cast<float*>(WeaponFOV_Offset.address());
+        //if (currentFOV != settings.weaponFOV) {
+            SetWeaponFOV(g_weaponFOV);
+        //}
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
-<<<<<<< HEAD
+DLLEXPORT constinit auto SFSEPlugin_Version = []() noexcept {
+	SFSE::PluginVersionData data{};
+	data.PluginVersion(Plugin::Version);
+	data.PluginName(Plugin::NAME);
+	data.AuthorName(Plugin::AUTHOR);
+	data.UsesSigScanning(true);
+	//data.UsesAddressLibrary(true);
+	data.HasNoStructUse(true);
+	//data.IsLayoutDependent(true);
+	data.CompatibleVersions({ SFSE::RUNTIME_LATEST });
+	return data;
+}();
+
 namespace
 {
 	void MessageCallback(SFSE::MessagingInterface::Message* a_msg) noexcept
@@ -47,12 +45,10 @@ namespace
 		case SFSE::MessagingInterface::kPostLoad:
 			{
 				settings.LoadSettings();
-				g_weaponFOV.store(settings.weaponFOV);
-				if (!isThreadRunning.load()) {
-                	isThreadRunning.store(true);
-                	fovThread = std::thread(WeaponFOVMonitor);
-                	fovThread.detach();
-            	}            
+				if (!fovThread.joinable()) {
+                	SetWeaponFOV(g_weaponFOV);
+					//fovThread = std::thread(WeaponFOVMonitor);
+                }
 				break;
 			}
 		default:
@@ -61,90 +57,12 @@ namespace
 	}
 }
 
-DLLEXPORT constinit auto SFSEPlugin_Version = []() noexcept {
-	SFSE::PluginVersionData data{};
-	
-	data.PluginVersion(Plugin::Version);
-	data.PluginName(Plugin::NAME);
-	data.AuthorName(Plugin::AUTHOR);
-	data.UsesSigScanning(true);
-	//data.UsesAddressLibrary(true);
-	data.HasNoStructUse(true);
-	//data.IsLayoutDependent(true);
-	data.CompatibleVersions({ RUNTIME_VERSION_1_7_23, RUNTIME_VERSION_1_7_29 });
-
-	return data;
-=======
-namespace Handler
+DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_sfse)
 {
-    struct WeaponDraw
-    {
-        static bool thunk(RE::Actor* a_actor)
-        {
-            const auto result = func(a_actor);            
-            if (!isThreadRunning.load()) {
-                isThreadRunning.store(true);
-                fovThread = std::thread(WeaponFOVMonitor);
-                fovThread.detach();
-            }            
-            return result;
-        }
-        static inline std::add_pointer_t<decltype(thunk)> func;
-    };
-
-    struct WeaponSheathe
-    {
-        static bool thunk(RE::Actor* a_actor)
-        {
-            const auto result = func(a_actor);
-            isThreadRunning.store(false);
-            if (fovThread.joinable()) {
-                fovThread.join();
-            }
-            return result;
-        }
-        static inline std::add_pointer_t<decltype(thunk)> func;
-    };
-
-    void Install()
-    {
-        SFSE::AllocTrampoline(28);
-        stl::write_thunk_call<WeaponDraw>(0x025F726C);
-        stl::write_thunk_call<WeaponSheathe>(0x025F73A3);
-        INFO("Hooked WeaponDraw and WeaponSheathe");
-    }
-}
-
-namespace
-{
-    void MessageCallback(SFSE::MessagingInterface::Message* a_msg) noexcept
-    {
-        if (a_msg->type == SFSE::MessagingInterface::kPostLoad) {
-            Handler::Install();
-            Settings::GetSingleton()->LoadSettings();
-            g_weaponFOV.store(Settings::GetSingleton()->weaponFOV);
-        }
-    }
-}
-
-DLLEXPORT constinit auto SFSEPlugin_Version = []() noexcept {
-    SFSE::PluginVersionData data{};
-    data.PluginVersion(Plugin::Version);
-    data.PluginName(Plugin::NAME);
-    data.AuthorName(Plugin::AUTHOR);
-    data.UsesSigScanning(true);
-    data.HasNoStructUse(true);
-    data.CompatibleVersions({ RUNTIME_VERSION_1_7_23 });
-
-    return data;
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
-}();
-
-DLLEXPORT bool SFSEAPI SFSEPlugin_Load(SFSEInterface* a_sfse)
-{
-    SFSE::Init(a_sfse);
-    DKUtil::Logger::Init(Plugin::NAME, std::to_string(Plugin::Version));
-    INFO("{} v{} loaded", Plugin::NAME, Plugin::Version);
-    SFSE::GetMessagingInterface()->RegisterListener(MessageCallback);
-    return true;
+	SFSE::Init(a_sfse);
+	DKUtil::Logger::Init(Plugin::NAME, std::to_string(Plugin::Version));
+	INFO("{} v{} loaded", Plugin::NAME, Plugin::Version);
+	SFSE::AllocTrampoline(1 << 10);
+	SFSE::GetMessagingInterface()->RegisterListener(MessageCallback);   
+	return true;
 }

@@ -97,6 +97,10 @@
 #include <vector>
 #include <version>
 
+// Clib
+#include "RE/Starfield.h"
+#include "SFSE/SFSE.h"
+
 // winnt
 #include <ShlObj_core.h>
 
@@ -104,9 +108,9 @@
 #undef max
 
 using namespace std::literals;
+using namespace REL::literals;
 
 #define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
-#define SFSEAPI __cdecl
 
 // Plugin
 #include "Plugin.h"
@@ -114,25 +118,3 @@ using namespace std::literals;
 // DKUtil
 #include "DKUtil/Hook.hpp"
 #include "DKUtil/Logger.hpp"
-<<<<<<< HEAD
-=======
-
-#include "sfse_common/Relocation.h"
-#include "sfse_common/SafeWrite.h"
-
-#include <SimpleIni.h>
-#include <DKUtil/Utility.hpp>
-
-namespace stl
-{
-	template <class T>
-	void write_thunk_call(std::uintptr_t a_src)
-	{
-		const RelocAddr<std::uintptr_t> address(a_src);
-		T::func = dku::Hook::write_call<5>(address.getUIntPtr(), T::thunk);
-	}
-}
-
-template <class T>
-using ISingleton = DKUtil::model::Singleton<T>;
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
