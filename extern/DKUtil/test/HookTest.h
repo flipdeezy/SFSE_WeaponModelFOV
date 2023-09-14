@@ -222,11 +222,16 @@ namespace Test::Hook
 	}
 
 
+<<<<<<< HEAD
 	void TestHooks()
+=======
+	void Run()
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 	{
 		Impl::RecalculateCombatRadiusHook::InstallHook();
 		Impl::RescaleCircleChanceHook::InstallHook();
 		Impl::FallbackDistanceHook::InstallHook();
+<<<<<<< HEAD
 	}
 
 #define PACK_BIG_ENDIAN(lo1, lo2, hi1, hi2) ((((lo1)&0xFF) << 0) | (((lo2)&0xFF) << 8) | (((hi1)&0xFF) << 16) | ((hi2)&0xFF) << 24)
@@ -260,5 +265,9 @@ namespace Test::Hook
 		//TestHooks();
 		//TestPattern();
 		TestDispHelpers();
+=======
+
+		TestPattern();
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 	}
 }

@@ -51,12 +51,20 @@ namespace DKUtil::Hook::Assembly
 	struct BranchRel
 	{
 		constexpr BranchRel(Disp32 disp = 0) :
+<<<<<<< HEAD
 			Op(RETN ? 0xE8 : 0xE9), Disp(disp)
+=======
+			Jmp(RETN ? 0xE8 : 0xE9), Disp(disp)
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{}
 
 		DEF_ASM
 
+<<<<<<< HEAD
 		OpCode Op = 0xE8;  // cd
+=======
+		OpCode Jmp = 0xE8;  // cd
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		Disp32 Disp = 0x00000000;
 	};
 	using CallRel = BranchRel<true>;
@@ -69,13 +77,22 @@ namespace DKUtil::Hook::Assembly
 	struct BranchRip
 	{
 		constexpr BranchRip(Disp32 disp = 0) :
+<<<<<<< HEAD
 			Rm(RETN ? 0x15 : 0x25), Disp(disp)
+=======
+			Rip(RETN ? 0x15 : 0x25), Disp(disp)
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{}
 
 		DEF_ASM
 
+<<<<<<< HEAD
 		OpCode Op = 0xFF;  // 2 | 4
 		ModRM Rm = 0x25;   // 1 0 1
+=======
+		OpCode Jmp = 0xFF;  // 2 | 4
+		ModRM Rip = 0x25;   // 1 0 1
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		Disp32 Disp = 0x00000000;
 	};
 	using CallRip = BranchRip<true>;
@@ -109,14 +126,23 @@ namespace DKUtil::Hook::Assembly
 	struct SubRsp
 	{
 		constexpr SubRsp(Imm8 s = 0) :
+<<<<<<< HEAD
 			Rm(ADD ? 0xC4 : 0xEC), Size(s)
+=======
+			Rsp(ADD ? 0xC4 : 0xEC), Size(s)
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{}
 
 		DEF_ASM
 
 		REX W = 0x48;
+<<<<<<< HEAD
 		OpCode Op = 0x83;  // 0 | 5 ib
 		ModRM Rm = 0xEC;   // 1 0 0
+=======
+		OpCode Sub = 0x83;  // 0 | 5 ib
+		ModRM Rsp = 0xEC;   // 1 0 0
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		Imm8 Size = 0x00;
 	};
 	static_assert(sizeof(SubRsp<true>) == 0x4);
@@ -134,7 +160,13 @@ namespace DKUtil::Hook::Assembly
 			}
 
 			constexpr auto rm = std::bit_cast<std::uint32_t>(reg);
+<<<<<<< HEAD
 			dku_cassert(rm <= 0xEC, "Use PushR64W for REX.B operations (2 byte opcode)");
+=======
+			if constexpr (rm > 0xEC) {
+				ERROR("Use PushR64W for REX.B operations (2 byte opcode)");
+			}
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 			Push += rm;
 		}
@@ -159,7 +191,13 @@ namespace DKUtil::Hook::Assembly
 			}
 
 			constexpr auto rm = std::bit_cast<std::uint32_t>(reg);
+<<<<<<< HEAD
 			dku_cassert(rm > 0xEC, "Use PushR64 for base operations (1 byte opcode)");
+=======
+			if constexpr (rm <= 0xEC) {
+				ERROR("Use PushR64 for base operations (1 byte opcode)");
+			}
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 			Push += rm;
 		}
@@ -277,8 +315,13 @@ namespace DKUtil::Hook::Assembly
 				if (!this->match(a_address)) {
 					ERROR(
 						"A pattern has failed to match.\n"
+<<<<<<< HEAD
 						"This means the plugin is incompatible with the current version of the binary.\n"
 						"Check if an update is available.\n");
+=======
+						"This means the plugin is incompatible with the current version of the game.\n"
+						"Head to the mod page of this plugin to see if an update is available.\n");
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 				}
 			}
 

@@ -1,7 +1,4 @@
-# 📑 Starfield Native HDR
-Native dll plugin upgrading the Starfield's swapchain to a HDR format.
-
- [Nexus Mods page](https://www.nexusmods.com/starfield/mods/588)
+# 📑 Weapon Model FOV
 
 ## ⚙ Requirements
 
@@ -18,7 +15,9 @@ Native dll plugin upgrading the Starfield's swapchain to a HDR format.
   - Desktop development with C++
 - [Starfield Steam Distribution](#-deployment)
   - Add the environment variable `SFPath` with the value as the path to the game installation
-  
+- [CLibUtil](https://github.com/powerof3/CLibUtil)
+  - Include
+
 ## Get started
 
 ### 💻 Register Visual Studio as a Generator
@@ -29,13 +28,14 @@ Native dll plugin upgrading the Starfield's swapchain to a HDR format.
 
 ### 🔨 Building
 
-```
 git clone https://github.com/ersh1/SF_NativeHDR.git
 cd SF_NativeHDR
 git submodule init
 git submodule update
 .\build-release.ps1
-```
+
+markdown
+Copy code
 
 ### ➕ DKUtil addon
 
@@ -43,9 +43,10 @@ This project bundles [DKUtil](https://github.com/gottyduke/DKUtil).
 
 ## 📖 License
 
-[GPL-3.0-or-later](COPYING) WITH [Modding Exception AND GPL-3.0 Linking Exception (with Corresponding Source)](EXCEPTIONS). Specifically, the Modded Code is Starfield (and its variants) and Modding Libraries include [Starfield Script Extender](https://github.com/ianpatt/sfse) and [DKUtil](https://github.com/gottyduke/DKUtil/) (and variants).
+[MIT](LICENSE)
 
 ## ❓ Credits
 
-- [ianpatt's Starfield Script Extender](https://github.com/ianpatt/sfse)
-- [Original plugin template](https://github.com/gottyduke/SF_PluginTemplate)
+- [ianpatt's starfield script extender](https://github.com/ianpatt/sfse).
+- [Original plugin template](https://github.com/gottyduke/PluginTemplate)
+- [PowerOfThree CLibUtil](https://github.com/powerof3/CLibUtil)

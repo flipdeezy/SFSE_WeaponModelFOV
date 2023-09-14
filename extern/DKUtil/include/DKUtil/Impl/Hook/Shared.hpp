@@ -25,6 +25,18 @@
 
 #define ASM_STACK_ALLOC_SIZE 0x20
 
+<<<<<<< HEAD
+=======
+// concept
+template <typename data_t>
+concept dku_h_pod_t =
+	std::is_integral_v<data_t> ||
+	(std::is_standard_layout_v<data_t> && std::is_trivial_v<data_t>);
+
+template <typename mem_t>
+concept dku_h_addr_t = std::convertible_to<void*, mem_t> || std::convertible_to<std::uintptr_t, mem_t>;
+
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 namespace DKUtil
 {
@@ -173,7 +185,10 @@ namespace DKUtil
 			default:
 				{
 					ERROR("DKU_H: Runtime patch failed to relocate for unknown runtime!");
+<<<<<<< HEAD
 					return (const Patch*)nullptr;
+=======
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 				}
 			}
 		}
@@ -242,7 +257,11 @@ namespace DKUtil
 		}
 
 
+<<<<<<< HEAD
 		inline void WriteData(const model::concepts::dku_memory auto a_dst, const void* a_data, const std::size_t a_size, bool a_requestAlloc = false) noexcept
+=======
+		inline void WriteData(const dku_h_addr_t auto& a_dst, const void* a_data, const std::size_t a_size, bool a_requestAlloc = false) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			if (a_requestAlloc) {
 				void(TRAM_ALLOC(a_size));
@@ -260,31 +279,51 @@ namespace DKUtil
 		}
 
 		// imm
+<<<<<<< HEAD
 		inline void WriteImm(const model::concepts::dku_memory auto a_dst, const dku_h_pod_t auto& a_data, bool a_requestAlloc = false) noexcept
+=======
+		inline void WriteImm(const dku_h_addr_t auto& a_dst, const dku_h_pod_t auto& a_data, bool a_requestAlloc = false) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			return WriteData(a_dst, std::addressof(a_data), sizeof(a_data), a_requestAlloc);
 		}
 
 		// pair patch
+<<<<<<< HEAD
 		inline void WritePatch(const model::concepts::dku_memory auto a_dst, const unpacked_data a_patch, bool a_requestAlloc = false) noexcept
+=======
+		inline void WritePatch(const dku_h_addr_t auto& a_dst, const unpacked_data a_patch, bool a_requestAlloc = false) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			return WriteData(a_dst, a_patch.first, a_patch.second, a_requestAlloc);
 		}
 
 		// xbyak patch
+<<<<<<< HEAD
 		inline void WritePatch(const model::concepts::dku_memory auto a_dst, const Xbyak::CodeGenerator* a_patch, bool a_requestAlloc = false) noexcept
+=======
+		inline void WritePatch(const dku_h_addr_t auto& a_dst, const Xbyak::CodeGenerator* a_patch, bool a_requestAlloc = false) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			return WriteData(a_dst, a_patch->getCode(), a_patch->getSize(), a_requestAlloc);
 		}
 
 		// struct patch
+<<<<<<< HEAD
 		inline void WritePatch(const model::concepts::dku_memory auto a_dst, const Hook::Patch* a_patch, bool a_requestAlloc = false) noexcept
+=======
+		inline void WritePatch(const dku_h_addr_t auto& a_dst, const Hook::Patch* a_patch, bool a_requestAlloc = false) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			return WriteData(a_dst, a_patch->Data, a_patch->Size, a_requestAlloc);
 		}
 
 		// util func
+<<<<<<< HEAD
 		inline constexpr std::uintptr_t TblToAbs(const model::concepts::dku_memory auto a_base, const std::uint16_t a_index, const std::size_t a_size = sizeof(Imm64)) noexcept
+=======
+		inline constexpr std::uintptr_t TblToAbs(const dku_h_addr_t auto& a_base, const std::uint16_t a_index, const std::size_t a_size = sizeof(Imm64)) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			return AsAddress(a_base + a_index * a_size);
 		}
@@ -344,7 +383,11 @@ namespace DKUtil
 		}
 
 		template <typename T = std::uintptr_t*>
+<<<<<<< HEAD
 		[[nodiscard]] inline constexpr auto offset_pointer(const model::concepts::dku_memory auto a_ptr, std::ptrdiff_t a_offset) noexcept
+=======
+		[[nodiscard]] inline constexpr auto offset_pointer(const dku_h_addr_t auto& a_ptr, std::ptrdiff_t a_offset) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			return *adjust_pointer<T>(a_ptr, a_offset);
 		}
@@ -352,11 +395,16 @@ namespace DKUtil
 		template <typename T>
 		inline constexpr void memzero(volatile T* a_ptr, std::size_t a_size = sizeof(T)) noexcept
 		{
+<<<<<<< HEAD
 			const auto* begin = std::bit_cast<volatile char*>(a_ptr);
+=======
+			const auto begin = std::bit_cast<volatile char*>(a_ptr);
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 			constexpr char val{ 0 };
 			std::fill_n(begin, a_size, val);
 		}
 
+<<<<<<< HEAD
 		/*
 		 * @brief Get the calculated address of the rip displacement in an assembly instruction
 		 * @brief Example : `FF 25 21 43 65 87` -> jmp qword ptr [rip + 0x87654321]
@@ -433,6 +481,9 @@ namespace DKUtil
 		}
 
 		inline Disp32 ReDisp(const model::concepts::dku_memory auto a_src, const Disp32 a_srcOffset, const model::concepts::dku_memory auto a_dst, const Disp32 a_dstOffset)
+=======
+		inline Disp32 ReDisp(const std::uintptr_t a_src, const Disp32 a_srcOffset, const std::uintptr_t a_dst, const Disp32 a_dstOffset)
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		{
 			Disp32* disp = std::bit_cast<Disp32*>(a_src + a_srcOffset);
 			Disp32* newDisp = std::bit_cast<Disp32*>(a_dst + a_dstOffset);
@@ -446,7 +497,13 @@ namespace DKUtil
 			constexpr auto min = std::numeric_limits<std::int32_t>::min();
 			constexpr auto max = std::numeric_limits<std::int32_t>::max();
 
+<<<<<<< HEAD
 			dku_assert((min <= a_disp && a_disp <= max), "DKU_H: displacement is out of range for trampoline relocation!");
+=======
+			if (!(min <= a_disp && a_disp <= max)) {
+				FATAL("DKU_H: displacement is out of range for trampoline relocation!");
+			}
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 		}
 
 		class Module
@@ -469,7 +526,13 @@ namespace DKUtil
 			constexpr Module() = delete;
 			explicit Module(std::uintptr_t a_base)
 			{
+<<<<<<< HEAD
 				dku_assert(a_base, "DKU_H: Failed to initializing module info with null module base");
+=======
+				if (!a_base) {
+					ERROR("DKU_H: Failed to initializing module info with null module base");
+				}
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 				_base = AsAddress(a_base);
 				_dosHeader = std::bit_cast<::IMAGE_DOS_HEADER*>(a_base);
@@ -491,7 +554,13 @@ namespace DKUtil
 			explicit Module(std::string_view a_filePath)
 			{
 				const auto base = AsAddress(::GetModuleHandleA(a_filePath.data())) & ~3;
+<<<<<<< HEAD
 				dku_assert(base, "DKU_H: Failed to initializing module info with file {}", a_filePath);
+=======
+				if (!base) {
+					ERROR("DKU_H: Failed to initializing module info with file {}", a_filePath);
+				}
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 				*this = Module(base);
 			}
@@ -506,7 +575,11 @@ namespace DKUtil
 				return std::make_pair(addr, size);
 			}
 
+<<<<<<< HEAD
 			[[nodiscard]] static Module& get(const model::concepts::dku_memory auto a_address) noexcept
+=======
+			[[nodiscard]] static Module& get(const dku_h_addr_t auto a_address) noexcept
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 			{
 				static std::unordered_map<std::uintptr_t, Module> managed;
 
@@ -534,8 +607,14 @@ namespace DKUtil
 
 		[[nodiscard]] inline void* GetImportAddress(std::string_view a_moduleName, std::string_view a_libraryName, std::string_view a_importName) noexcept
 		{
+<<<<<<< HEAD
 			dku_assert(!a_libraryName.empty() && !a_importName.empty(),
 				"DKU_H: IAT hook must have valid library name & method name\nConsider using GetProcessName([Opt]HMODULE)");
+=======
+			if (a_libraryName.empty() || a_importName.empty()) {
+				ERROR("DKU_H: IAT hook must have valid library name & method name\nConsider using GetProcessName([Opt]HMODULE)");
+			}
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 			auto& module = Module::get(a_moduleName);
 			const auto* dosHeader = module.dosHeader();

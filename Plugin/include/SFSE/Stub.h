@@ -4,8 +4,11 @@
 #include "sfse/PluginAPI.h"
 #include "sfse_common/sfse_version.h"
 
+<<<<<<< HEAD
 #define SFSEAPI __cdecl
 
+=======
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 // interface
 namespace SFSE
 {
@@ -255,4 +258,8 @@ namespace SFSE
 	static_assert(offsetof(PluginVersionData, reservedNonBreaking) == 0x254);
 	static_assert(offsetof(PluginVersionData, reservedBreaking) == 0x258);
 	static_assert(sizeof(PluginVersionData) == 0x25C);
+<<<<<<< HEAD
 }  // namespace SFSE
+=======
+}  // namespace SFSE
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc

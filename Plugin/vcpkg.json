@@ -1,8 +1,13 @@
 {
     "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
     "name": "weapon-model-fov",
+<<<<<<< HEAD
     "version-string": "1.0.3",
     "description": "SFSE plugin that changes weapon model",
+=======
+    "version-string": "1.0.0",
+    "description": "",
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
     "dependencies": [
         "fmt",
         "spdlog",

@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 *.ps1 linguist-vendored
+=======
+# Auto detect text files and perform LF normalization
+* text=auto
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc

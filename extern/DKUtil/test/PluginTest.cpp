@@ -4,8 +4,13 @@
 #include "SSEExtraTest.h"
 #include "UtilityTest.h"
 
+<<<<<<< HEAD
 //#define TEST_CONFIG
 #define TEST_HOOK
+=======
+#define TEST_CONFIG
+//#define TEST_HOOK
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 //#define TEST_LOGGER
 //#define TEST_UTILITY
 //#define TEST_CUSTOM

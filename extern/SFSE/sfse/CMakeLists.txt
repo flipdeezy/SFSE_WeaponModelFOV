@@ -50,6 +50,7 @@ source_group(
 source_group(
 	${PROJECT_NAME}/api
 	FILES
+<<<<<<< HEAD
 		GameConsole.cpp
 		GameConsole.h
 		GameEvents.h
@@ -66,6 +67,9 @@ source_group(
 		GameSettings.cpp
 		GameSettings.h
 		GameTypes.h
+=======
+		GameReflection.h
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 )
 
 source_group(
@@ -73,8 +77,11 @@ source_group(
 	FILES
 		Hooks_Version.cpp
 		Hooks_Version.h
+<<<<<<< HEAD
 		Hooks_Script.cpp
 		Hooks_Script.h
+=======
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 )
 
 source_group(
@@ -88,7 +95,10 @@ source_group(
 source_group(
 	${PROJECT_NAME}/netimmerse
 	FILES
+<<<<<<< HEAD
 		NiTypes.h
+=======
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 )
 
 source_group(
@@ -99,7 +109,10 @@ source_group(
 source_group(
 	${PROJECT_NAME}/papyrus/vm
 	FILES
+<<<<<<< HEAD
 		PapyrusNativeFunctions.h
+=======
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 )
 
 source_group(

@@ -2,6 +2,7 @@
 
 #include "sfse_common/DataStream.h"
 
+<<<<<<< HEAD
 class BufferStream : public DataStream
 {
 public:
@@ -16,4 +17,25 @@ public:
 
 protected:
 	u8 * m_buf;
+=======
+class BufferStream : public DataStream {
+public:
+  BufferStream() : m_buf(nullptr) {}
+
+  void attach(void *buf, u64 len) {
+    m_buf = (u8 *)buf;
+    m_len = len;
+  }
+
+  virtual u64 seek(u64 offset) {
+    m_offset = offset;
+    return offset;
+  }
+
+  virtual u64 read(void *dst, u64 len);
+  virtual u64 write(const void *src, u64 len);
+
+protected:
+  u8 *m_buf;
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 };

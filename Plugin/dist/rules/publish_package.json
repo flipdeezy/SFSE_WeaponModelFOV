@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "action": "copy",
         "params": [
             "{dist}\\*.dll",
@@ -40,6 +41,15 @@
         "config": "Release",
         "params": [
             "{dist}\\Data\\",
+=======
+        "action": "package",
+        "config": "Release",
+        "params": [
+            "{dist}\\*.dll",
+            "{dist}\\*.ini",
+            "{dist}\\*.json",
+            "{dist}\\*.toml",
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
             "{dist}\\{project_name}.v{project_version}.zip"
         ]
     },
@@ -47,7 +57,15 @@
         "action": "package",
         "config": "RelWithDebInfo",
         "params": [
+<<<<<<< HEAD
             "{dist}\\Data\\",
+=======
+            "{dist}\\*.dll",
+            "{dist}\\*.pdb",
+            "{dist}\\*.ini",
+            "{dist}\\*.json",
+            "{dist}\\*.toml",
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
             "{dist}\\{project_name}.v{project_version}.zip"
         ]
     }

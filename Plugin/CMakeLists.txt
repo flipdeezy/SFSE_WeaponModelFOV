@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 3.21)
 # info
 project(
 	WeaponModelFOVSwap
+<<<<<<< HEAD
 	VERSION 1.0.4
+=======
+	VERSION 1.0.0
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 	LANGUAGES CXX
 )
 

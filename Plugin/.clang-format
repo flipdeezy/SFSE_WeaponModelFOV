@@ -72,7 +72,11 @@ MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PointerAlignment: Left
 ReflowComments : 'false'
+<<<<<<< HEAD
 SortIncludes: 'true'
+=======
+SortIncludes: 'false'
+>>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 SortUsingDeclarations: 'true'
 SpaceAfterCStyleCast: 'false'
 SpaceAfterLogicalNot: 'false'
