@@ -26,14 +26,6 @@
 - Run `cmake`
 - Close the cmd window
 
-### 🔨 Building
-
-git clone https://github.com/ersh1/SF_NativeHDR.git
-cd SF_NativeHDR
-git submodule init
-git submodule update
-.\build-release.ps1
-
 markdown
 Copy code
 
