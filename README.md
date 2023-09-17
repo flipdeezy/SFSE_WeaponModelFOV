@@ -24,6 +24,7 @@ Native dll plugin for [starfield script extender](https://github.com/ianpatt/sfs
 - Run `cmake`
 - Close the cmd window
 
+<<<<<<< HEAD
 ### 🔨 Building
 
 - [CommonLibSF](https://github.com/Starfield-Reverse-Engineering/CommonLibSF)
@@ -41,6 +42,10 @@ cmake --build build
 ### 📦 Deployment
 
 This plugin template has auto deployment rules for easier build-and-test, build-and-package features, using simple json rules. [Read more here!](https://github.com/gottyduke/SF_PluginTemplate/wiki/Custom-deployment-rules)
+=======
+markdown
+Copy code
+>>>>>>> a0de58a6780f8dd14bf7c54056cb7dd79d6219f1
 
 ### ➕ DKUtil addon
 
