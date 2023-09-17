@@ -2,27 +2,34 @@
 #include "Settings.h"
 #include <Windows.h>
 
-std::atomic<bool> shouldTerminateThread = false;
-std::atomic<bool> isThreadRunning = false;
-std::thread fovThread;
-
 Settings settings;
-static std::atomic<float> g_weaponFOV(120.0f);
-REL::Relocation<uintptr_t> WeaponFOV_Offset = 0x79FE208;
+REL::Offset WeaponFOV_Offset(0x79FE208);
 
 void SetWeaponFOV(float fovValue) {
     REL::safe_write(WeaponFOV_Offset.address(), &fovValue, sizeof(float));
 }
 
-void WeaponFOVMonitor() {
-    while (!shouldTerminateThread) {
-        float currentFOV = *reinterpret_cast<float*>(WeaponFOV_Offset.address());
-        //if (currentFOV != settings.weaponFOV) {
-            SetWeaponFOV(g_weaponFOV);
-        //}
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+class hk_FOVValChange
+{
+    static float HookHandler()
+    {
+        return settings.weaponFOV;
     }
-}
+
+public:
+	static void Install()
+	{
+		auto funcAddr = REL::Offset{ 0x286C0C1 }; // maybe better to hook inside the function? can hook the sub here 0x286C0A0 5 byte instruction
+		auto handle = DKUtil::Hook::AddCaveHook(
+			funcAddr.address(),
+			{ 0, 8 },
+			FUNC_INFO(HookHandler),
+			std::make_pair(nullptr, 0),
+			std::make_pair(nullptr, 0), DKUtil::Hook::HookFlag::kRestoreAfterEpilog); // do nothing if replacing whole func kNoFlag
+
+		handle->Enable();
+	}
+};
 
 DLLEXPORT constinit auto SFSEPlugin_Version = []() noexcept {
 	SFSE::PluginVersionData data{};
@@ -42,13 +49,10 @@ namespace
 	void MessageCallback(SFSE::MessagingInterface::Message* a_msg) noexcept
 	{
 		switch (a_msg->type) {
-		case SFSE::MessagingInterface::kPostLoad:
+		case SFSE::MessagingInterface::kPostPostLoad:
 			{
 				settings.LoadSettings();
-				if (!fovThread.joinable()) {
-                	SetWeaponFOV(g_weaponFOV);
-					//fovThread = std::thread(WeaponFOVMonitor);
-                }
+				hk_FOVValChange::Install();
 				break;
 			}
 		default:

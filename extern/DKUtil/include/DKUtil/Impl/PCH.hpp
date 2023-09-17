@@ -151,7 +151,6 @@ using namespace std::literals;
 namespace DKUtil
 {};
 namespace dku = DKUtil;
-<<<<<<< HEAD
 
 #define dku_assert(cond, ...)   \
 	{                           \
@@ -166,5 +165,3 @@ namespace dku = DKUtil;
 			FATAL(__VA_ARGS__);              \
 		}                                    \
 	}
-=======
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc

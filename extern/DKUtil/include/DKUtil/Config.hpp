@@ -2,12 +2,9 @@
 
 
 /*
-<<<<<<< HEAD
  * 1.1.6
  * SFSE integration;
  * 
-=======
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
  * 1.1.5
  * Removed DataManager layer between raw data and proxy;
  * 
@@ -45,11 +42,7 @@
 
 #define DKU_C_VERSION_MAJOR 1
 #define DKU_C_VERSION_MINOR 1
-<<<<<<< HEAD
 #define DKU_C_VERSION_REVISION 6
-=======
-#define DKU_C_VERSION_REVISION 5
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 
 
 #pragma warning(push)
@@ -65,11 +58,8 @@
 #		define CONFIG_ENTRY "Data\\F4SE\\Plugins\\"
 #	elif defined(SKSEAPI)
 #		define CONFIG_ENTRY "Data\\SKSE\\Plugins\\"
-<<<<<<< HEAD
 #	elif defined(SFSEAPI)
 #		define CONFIG_ENTRY "Data\\SFSE\\Plugins\\"
-=======
->>>>>>> 11ad18d6b375ff01709996cfabff128af874a1fc
 #	else
 #		define CONFIG_ENTRY ""
 #	endif

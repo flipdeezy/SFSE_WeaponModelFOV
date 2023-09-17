@@ -1,5 +1,8 @@
 {
-    "cmake.sourceDirectory": "G:/Workspace/C++/SFSE_WeaponModelFOV/Plugin",
+    "cmake.sourceDirectory": "G:/Workspace/C++/StarField/WeaponModelFOV/Plugin",
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "G:/Workspace/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    },
     "files.associations": {
         "atomic": "cpp",
         "algorithm": "cpp",
@@ -104,6 +107,7 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "*.rh": "cpp"
     }
 }
