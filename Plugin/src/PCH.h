@@ -110,6 +110,11 @@
 using namespace std::literals;
 using namespace REL::literals;
 
+namespace stl
+{
+	using namespace SFSE::stl;
+}
+
 #define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
 
 // Plugin
